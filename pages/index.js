@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 
 export default function HomePage({ pokemon }) {
   const [pagina, setPagina] = useState(1);
-  const [porPagina, setPorPagina] = useState(10);
+  const [porPagina, setPorPagina] = useState(20);
   const max = Math.ceil(pokemon.length / porPagina);
   useEffect(() => {}, [pokemon]);
 
