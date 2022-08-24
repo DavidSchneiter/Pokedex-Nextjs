@@ -1,0 +1,29 @@
+import { pokeApi } from "../api";
+import { Layout } from "../components/layouts";
+import { Region } from "../components/pokemon/Region";
+
+export default function Regiones({ regiones }) {
+  return (
+    <Layout title={"Region"}>
+      <ul>
+        {regiones.map((reg) => (
+          <Region key={reg.id} region={reg} />
+        ))}
+      </ul>
+    </Layout>
+  );
+}
+
+export const getStaticProps = async (ctx) => {
+  const { data } = await pokeApi.get("/pokedex");
+  const regiones = data.results.map((reg, i) => ({
+    ...reg,
+    id: i + 1,
+  }));
+  console.log(regiones);
+  return {
+    props: {
+      regiones,
+    },
+  };
+};

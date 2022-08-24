@@ -1,0 +1,50 @@
+import { Image } from "@nextui-org/react";
+import React from "react";
+import { pokeApi } from "../../api";
+import { Layout } from "../../components/layouts";
+import { getPokemon } from "../../helpers";
+
+export default function Pokemon({ pokemon }) {
+  return (
+      <Layout>
+{/*           
+      <h2>{pokemon.name}</h2>
+      <Image width={320} height={180} src="pokemon.sprites" alt="asd" />
+      <h3> {pokemon.id}</h3>
+      <div>{pokemon.types}</div>
+      <Image
+        width={320}
+        height={180}
+        src={pokemon.sprites.front_default}
+        alt="Default Image"
+        objectFit="cover"
+      /> */}
+    </Layout>
+  );
+}
+
+export async function getStaticPaths() {
+  const { data } = await pokeApi.get("/pokedex");
+  // const pokemonNames = data.results.map((pokemon) => pokemon.name);
+  // console.log(pokemonNames);
+  return {
+    paths: data.results.map((name) => ({
+      params: { regiones: reg.name.toString() },
+    })),
+    // fallback: false
+    fallback: "blocking",
+  };
+}
+
+export async function getStaticProps({ params }) {
+  // const { data } = await pokeApi.get("/pokemon?limit=151");
+  const pokemon = await getPokemon(params.id);
+  // const pokemons = data.results.map((poke) => poke.name);
+  // const name = params.id;
+  console.log(pokemon);
+  return {
+    props: {
+      pokemon,
+    },
+  };
+}
