@@ -12,12 +12,11 @@ import {
 import { useEffect, useState } from "react";
 
 export default function HomePage({ pokemon }) {
-  // const [pagina, setPagina] = useState(1);
-  // const [porPagina, setPorPagina] = useState(10);
-  // const max = Math.ceil(pokemon.length / porPagina);
+  const [pagina, setPagina] = useState(1);
+  const [porPagina, setPorPagina] = useState(10);
+  const max = Math.ceil(pokemon.length / porPagina);
   useEffect(() => {}, [pokemon]);
 
-  const [filtroPokemon, setfiltroPokemon] = useState(pokemon);
   const [search, setSearch] = useState("");
   console.log(search);
   const onChange = (e) => {
@@ -32,30 +31,19 @@ export default function HomePage({ pokemon }) {
           e.id.toString().includes(search.toString())
       );
 
-  // const filtro = (cont) => {
-  //   let result = filtroPokemon.filter((e) => {
-  //     if (e.name.toString().toLowerCase().includes(cont.toLowerCase())) {
-  //       return e;
-  //     } else {
-  //       result = filtroPokemon;
-  //     }
-  //   });
-  //   setfiltroPokemon(result);
-  // };
-
-  // const plusPage = () => {
-  //   if (pagina === max) {
-  //     return;
-  //   } else {
-  //     setPagina(pagina + 1);
-  //   }
-  // };
-  // const minusPage = () => {
-  //   if (pagina == 1) {
-  //     return;
-  //   }
-  //   setPagina(pagina - 1);
-  // };
+  const plusPage = () => {
+    if (pagina === max) {
+      return;
+    } else {
+      setPagina(pagina + 1);
+    }
+  };
+  const minusPage = () => {
+    if (pagina == 1) {
+      return;
+    }
+    setPagina(pagina - 1);
+  };
 
   return (
     <Layout title={"Pokedex"}>
@@ -80,12 +68,12 @@ export default function HomePage({ pokemon }) {
 
       <Grid.Container gap={4} justify="flex-start">
         {results
-          // .slice((pagina - 1) * porPagina, (pagina - 1) * porPagina + porPagina)
+          .slice((pagina - 1) * porPagina, (pagina - 1) * porPagina + porPagina)
           .map((pokemon) => (
             <Pokemon key={pokemon.id} pokemon={pokemon} />
           ))}
       </Grid.Container>
-      {/* <Container
+      <Container
         css={{
           display: "flex",
           justifyContent: "space-evenly",
@@ -107,13 +95,12 @@ export default function HomePage({ pokemon }) {
           NEXT
         </Button>
       </Container>
-      <Spacer y={1} /> */}
+      <Spacer y={1} />
     </Layout>
   );
 }
 export const getStaticProps = async ({}) => {
   const { data } = await pokeApi.get(`/pokemon?limit=898`);
-  // for (let i = 0; i <=)
 
   const pokemon = data.results.map((poke, i) => ({
     ...poke,
