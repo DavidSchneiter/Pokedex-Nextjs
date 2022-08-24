@@ -9,13 +9,15 @@ import {
   Spacer,
   Text,
 } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function HomePage({ pokemon }) {
   const [pagina, setPagina] = useState(1);
   const [porPagina, setPorPagina] = useState(20);
   const max = Math.ceil(pokemon.length / porPagina);
-  useEffect(() => {}, [pokemon]);
+
+  const textRef = useRef();
+  useEffect(() => {}, [pagina]);
 
   const [search, setSearch] = useState("");
   console.log(search);
@@ -37,6 +39,7 @@ export default function HomePage({ pokemon }) {
       return;
     } else {
       setPagina(pagina + 1);
+      window.scroll(0, 0);
     }
   };
   const minusPage = () => {
@@ -44,6 +47,7 @@ export default function HomePage({ pokemon }) {
       return;
     }
     setPagina(pagina - 1);
+    window.scroll(0, 0);
   };
 
   return (
@@ -61,6 +65,7 @@ export default function HomePage({ pokemon }) {
           Search Pokemon by Id, Name
         </Text>
         <Input
+          ref={textRef}
           width="1000px"
           placeholder="Search Pokemon"
           onChange={onChange}
@@ -92,6 +97,7 @@ export default function HomePage({ pokemon }) {
           xs={{ marginTop: "2px" }}
           css={{ backgroundColor: "$red600" }}
           onClick={plusPage}
+          href={textRef}
         >
           NEXT
         </Button>
