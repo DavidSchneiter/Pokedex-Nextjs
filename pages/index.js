@@ -21,6 +21,7 @@ export default function HomePage({ pokemon }) {
   console.log(search);
   const onChange = (e) => {
     setSearch(e.target.value);
+    setPagina(1);
   };
 
   const results = !search
